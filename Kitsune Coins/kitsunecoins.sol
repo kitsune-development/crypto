@@ -1,10 +1,5 @@
 pragma solidity ^0.4.0;
 
-/*
-	Smart Contract that allows for the creator to make and send coins
-	These coins can then be kept and transfered amongst other users.
-*/
-
 contract KitsuneCoin {
 	address public creator;
 	mapping (address => uint) public balances;
@@ -17,12 +12,12 @@ contract KitsuneCoin {
 	}
 	
 	function createCoin(address receiver, uint amount) public {
-		require(msg.sender != creator);
+		require(msg.sender == creator);
 		balances[receiver] += amount;
 	}
 	
 	function transfer(address receiver, uint amount) public {
-		require(balances[msg.sender] < amount);
+		require(balances[msg.sender] > amount);
 		balances[msg.sender] -= amount;
 		balances[receiver] += amount;
 		Delivered(msg.sender, receiver, amount);
